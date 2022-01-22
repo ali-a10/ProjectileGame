@@ -15,7 +15,7 @@ class Shooter:
             ]
         
     def nextPNG(self):  # -> Tuple
-        self.png_count += 0.2
+        self.png_count += 1
         if self.png_count > 55:
             self.png_count = 0
         

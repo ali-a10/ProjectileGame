@@ -12,6 +12,7 @@ class Ball:
         self.diameter = self.ball_png.get_height()
         self.in_air = False
         self.is_scored = False
+        self.counter = 0
 
     def shoot(self, time: float, power: int, angle) -> None:#Tuple[int]:  #whats the type for angle
         x_velocity = math.cos(angle) * power
