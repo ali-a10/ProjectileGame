@@ -21,11 +21,12 @@ while run:
     if keys[pygame.K_UP] and net.y > 4:
         net.y -= 4
 
-
-    time += 0.1
+    if ball.in_air:
+        time += 0.3
     # increase time as level increases
 
-    if time > 25:
-        run = False
+    shooter.nextPNG()
+
+    if time > 25 or not ball.in_air:
         time = 0
     redraw_window(0, time)

@@ -2,6 +2,7 @@ from typing import Tuple
 import pygame
 from Ball import *
 from Net import *
+from Shooter import Shooter
 
 pygame.init()
 
@@ -15,16 +16,35 @@ pygame.display.set_caption("Make the Shot Game")
 
 ball = Ball(60, 300)
 net = Net(800, 150)
+shooter = Shooter(20, win_length - 178)
 bg = pygame.transform.scale(pygame.image.load('images/courtbg.png'), (1000, 520))
 
 
-def redraw_window(shot_time: Tuple[int], time: float) -> None:
+def redraw_window(shot_time: int, time: float) -> None:
     window.blit(bg, (0, 0))
     window.blit(net.net_png, (net.x, net.y))
 
-    ball.shoot(time, 65, math.pi/4)  #USE /3, /4, /6 
-    # print(time, ball.x, ball.y)
-    window.blit(ball.ball_png, (ball.x, ball.y))
+    shooting_png = shooter.nextPNG()
+    window.blit(shooting_png[0], (20, win_length - shooting_png[0].get_height()
+    - shooting_png[1]))
+
+    if shooting_png[0] == shooter.listof_pngs[2]:
+        # print("____________________________________________________________________________")
+        ball.in_air = True
+
+    if not ball.in_air:
+        shooter.is_shooting = True
+
+    if ball.in_air:  # or not scored
+        ball.shoot(time, 60, math.pi/4)  #USE /3, /4, /6 
+        window.blit(ball.ball_png, (ball.x, ball.y))
+        if shooting_png[0] == shooter.listof_pngs[0]:
+            shooter.is_shooting = False
+    # else:
+        # shooter.is_shooting = False
+    # print(shooter.is_shooting)
+    
+
 
     # top box
     pygame.draw.rect(window, (255, 215, 0), (0, 0, win_width, 69))
