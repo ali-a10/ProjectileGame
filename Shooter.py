@@ -14,24 +14,24 @@ class Shooter:
             pygame.image.load('images/shoot5.png'),
             ]
         
-    def nextPNG(self):  # -> Tuple
+    def nextPNG(self):  # -> Tuple:
         self.png_count += 1
-        if self.png_count > 55:
+        if self.png_count > 52:
             self.png_count = 0
         
         if not self.is_shooting:
             return self.listof_pngs[0], 0
         else:
-            if self.png_count < 30:#15:
+            if self.png_count < 30:
                 return self.listof_pngs[0], 0
 
-            elif self.png_count < 35:#20:
+            elif self.png_count < 35:
                 return self.listof_pngs[1], 6
 
-            elif self.png_count < 40:#25:
+            elif self.png_count < 40:
                 return self.listof_pngs[2], 12
 
-            elif self.png_count < 45:#30:
+            elif self.png_count < 45:
                 return self.listof_pngs[3], 14
 
             else:
