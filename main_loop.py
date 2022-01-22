@@ -1,5 +1,7 @@
 from redraw_func import *
 
+time = 0
+
 run = True
 while run:
     for event in pygame.event.get():
@@ -19,4 +21,11 @@ while run:
     if keys[pygame.K_UP] and net.y > 4:
         net.y -= 4
 
-    redraw_window(0)
+
+    time += 0.1
+    # increase time as level increases
+
+    if time > 25:
+        run = False
+        time = 0
+    redraw_window(0, time)
