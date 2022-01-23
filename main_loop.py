@@ -5,6 +5,7 @@ ball_time = 0
 clock = pygame.time.Clock()
 waiting = False
 score = 0
+shot = shooter.chooseShot()
 
 run = True
 while run:
@@ -26,34 +27,37 @@ while run:
     if keys[pygame.K_UP] and net.y > net_yboundary + 4:
         net.y -= 4
 
-
-    shooter.nextPNG()
+    # shooter.nextPNG()
 
     if ball.in_air:
         ball_time += 0.3
     # increase time as level increases
 
-    if ball_time > 25 or not ball.in_air:
+    if ball_time > shot[2] or not ball.in_air:
         ball_time = 0
 
     rim_line = net.get_rim_line()
+
     # if ball is scored
     if rim_line[0][0] <= ball.x <= rim_line[1][0] and\
-        rim_line[0][1] <= ball.y + ball.diameter/2 <= rim_line[0][1]+15:
+        rim_line[0][1] <= ball.y + ball.diameter/2 <= rim_line[0][1]+20:
         ball.in_air = False
         ball.is_scored = True
+        ball_time = 0
         waiting = True
         score += 1
 
     if waiting: # only thing that's drawn is 'score'
         window.blit(pygame.transform.scale(pygame.image.load('images/score.PNG'), 
-            (100, 70)), (net.x, net.y+70))
+            (100, 70)), (net.x, net.y-10))
         pygame.display.update()
         time.sleep(0.75)
+        shot = shooter.chooseShot()
+        # print(shot)
 
         waiting = False
         ball.is_scored = False
         ball.x = ball.starting_x
         ball.y = ball.starting_y
     else:
-        redraw_window(0, ball_time, score)
+        redraw_window(ball_time, score, shot)

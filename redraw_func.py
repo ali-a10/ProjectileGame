@@ -1,4 +1,4 @@
-from typing import Tuple
+from typing import Tuple, List
 import pygame
 from Ball import *
 from Net import *
@@ -24,48 +24,42 @@ net_yboundary = 75
 score_font = pygame.font.SysFont('arial', 25, True, True)
 
 
-def redraw_window(shot_time: int, time: float, score: int) -> None:
+def redraw_window(time: float, score: int, shot: List[int]) -> None:
     window.blit(bg, (0, 70))
     pygame.draw.line(window, (255, 255, 255), (net_xboundary, 0), 
                     (net_xboundary, win_length))
 
     # rim_line = net.get_rim_line()
     shooting_png = shooter.nextPNG()
-    # print(shooting_png)
     window.blit(shooting_png[0], (20, win_length - shooting_png[0].get_height()
     - shooting_png[1]))
 
     if shooting_png[0] == shooter.listof_pngs[2]:
         ball.in_air = True
-        # print("111111111")
-        
+    
     if not ball.in_air:
-        # print("22222222222")
         shooter.is_shooting = True
 
-    if ball.in_air:  # or not scored
+    if ball.in_air:
         if ball.is_scored:
-            # window.blit(pygame.transform.scale(pygame.image.load('images/score.PNG'), 
-            # (100, 70)), (ball.x, ball.y))
             pass
         else:
             if shooting_png[0] == shooter.listof_pngs[0]:
                 shooter.is_shooting = False
                 if ball.x > ball.starting_x + 20:
-                    ball.shoot(time, 60, math.pi/4)  #USE /3, /4, /6
+                    ball.shoot(time, shot[1], math.pi/shot[0])  
+                    # ball.shoot(time, 60, math.pi/5)
                     window.blit(ball.ball_png, (ball.x, ball.y))
             
             else:
-                ball.shoot(time, 60, math.pi/4)  #USE /3, /4, /6
+                ball.shoot(time, shot[1], math.pi/shot[0])
+                # ball.shoot(time, 60, math.pi/5)  #USE /3, /4, /6
                 window.blit(ball.ball_png, (ball.x, ball.y))
 
-#         # if ball is scored
-#         if rim_line[0][0] <= ball.x <= rim_line[1][0] and\
-#         rim_line[0][1] <= ball.y + ball.diameter/2 <= rim_line[0][1]+15:
-#             print('BUCKET')
-#             ball.in_air = False
-#             window.blit(pygame.transform.scale(pygame.image.load('images/score.PNG'), 
-# (100, 70)), (ball.x, ball.y))
+            if ball.y + ball.diameter < 74:
+                window.blit(pygame.transform.scale(pygame.image.load(
+                    'images/arrow.png'), (45, 55)), (ball.x, 80))
+
             
     # top box
     pygame.draw.rect(window, (0, 0, 0), (0, 0, win_width, 69))
