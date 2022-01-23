@@ -28,11 +28,8 @@ while run and menu:
     if keys[pygame.K_UP] and net.y > net_yboundary + 4:
         net.y -= 4
 
-    # shooter.nextPNG()
-
     if ball.in_air:
         ball_time += 0.3
-    # increase time as level increases
 
     if ball_time > shot[2] or not ball.in_air:
         ball_time = 0
@@ -57,7 +54,6 @@ while run and menu:
         pygame.display.update()
         time.sleep(0.75)
         shot = shooter.chooseShot()
-        # print(shot)
 
         waiting = False
         ball.is_scored = False

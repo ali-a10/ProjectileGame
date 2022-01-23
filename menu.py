@@ -37,10 +37,6 @@ def main_menu():
         return False
     return True
 
-
-
-
-
 def game_over():
     over = True
 

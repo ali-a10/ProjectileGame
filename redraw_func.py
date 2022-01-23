@@ -1,4 +1,4 @@
-from typing import Tuple, List
+from typing import List
 import pygame
 from Ball import *
 from Net import *
@@ -47,12 +47,10 @@ def redraw_window(time: float, shot: List[int]) -> None:
                 shooter.is_shooting = False
                 if ball.x > ball.starting_x + 20:
                     ball.shoot(time, shot[1], math.pi/shot[0])  
-                    # ball.shoot(time, 60, math.pi/5)
                     window.blit(ball.ball_png, (ball.x, ball.y))
             
             else:
                 ball.shoot(time, shot[1], math.pi/shot[0])
-                # ball.shoot(time, 60, math.pi/5)  #USE /3, /4, /6
                 window.blit(ball.ball_png, (ball.x, ball.y))
 
             if ball.y + ball.diameter < 74:
@@ -73,16 +71,17 @@ def redraw_window(time: float, shot: List[int]) -> None:
     1, (255, 255, 255))
     window.blit(high_text, (825, 20))
     
-    window.blit(pygame.transform.scale(pygame.image.load("images/ball2.png"), (55, 55)), (50, 10))
-    window.blit(pygame.transform.scale(pygame.image.load("images/ball2.png"), (55, 55)), (125, 10))
-    window.blit(pygame.transform.scale(pygame.image.load("images/ball2.png"), (55, 55)), (200, 10))
+    window.blit(pygame.transform.scale(pygame.image.load("images/ball2.png"), 
+    (55, 55)), (50, 10))
+    window.blit(pygame.transform.scale(pygame.image.load("images/ball2.png"), 
+    (55, 55)), (125, 10))
+    window.blit(pygame.transform.scale(pygame.image.load("images/ball2.png"), 
+    (55, 55)), (200, 10))
 
     for i in range(player.lives):
         window.blit(pygame.transform.scale(pygame.image.load(
                     "images/xmark.png"), (55, 55)), (50 + i*75, 10))
 
     window.blit(net.net_png, (net.x, net.y))
-    # pygame.draw.line(window, (255, 255, 255), rim_line[0], rim_line[1])
-
 
     pygame.display.update()

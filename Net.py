@@ -1,4 +1,4 @@
-from re import X
+from typing import Tuple
 
 
 import pygame
@@ -13,7 +13,7 @@ class Net:
         self.width = self.net_png.get_width()
 
 
-    def get_rim_line(self) -> None:
+    def get_rim_line(self) -> Tuple[int]:
         ''' this is the line that the ball can go in from
         first element of the tuple is the start of line 
         second element of the tuple is the end of line '''

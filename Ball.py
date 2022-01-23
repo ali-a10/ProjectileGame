@@ -14,7 +14,7 @@ class Ball:
         self.is_scored = False
         self.ball_on_ground = False
 
-    def shoot(self, time: float, power: int, angle) -> None:#Tuple[int]:  #whats the type for angle
+    def shoot(self, time: float, power: int, angle: float) -> None:
         self.ball_on_ground = False
         x_velocity = math.cos(angle) * power
         y_velocity = math.sin(angle) * power
@@ -27,5 +27,4 @@ class Ball:
             self.ball_on_ground = True
             self.x = self.starting_x
             self.y = self.starting_y
-        # make if statement for if ball is scored
 

@@ -1,4 +1,4 @@
-from numpy import index_exp
+from typing import List
 import pygame
 import random
 
@@ -18,7 +18,7 @@ class Shooter:
             ]
         self.nextShot = False
         
-    def nextPNG(self):  # -> Tuple:
+    def nextPNG(self):
         self.png_count += 2
         if self.png_count > 52:
             self.png_count = 0
@@ -47,9 +47,9 @@ class Shooter:
                 self.is_standing = False
                 return self.listof_pngs[4], 5
 
-    def chooseShot(self) -> None: ## CHANGE THE NONE
-        angles = [2.5, 5]#3, 4, 5]
-        index_chosen = random.randint(0,1)
+    def chooseShot(self) -> List[int]: ## CHANGE THE NONE
+        angles = [2.5, 3, 4, 5]
+        index_chosen = random.randint(0,3)
         angle_chosen = angles[index_chosen]
 
         if index_chosen == 0:
