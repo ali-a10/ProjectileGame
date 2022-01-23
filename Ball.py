@@ -12,8 +12,10 @@ class Ball:
         self.diameter = self.ball_png.get_height()
         self.in_air = False
         self.is_scored = False
+        self.ball_on_ground = False
 
     def shoot(self, time: float, power: int, angle) -> None:#Tuple[int]:  #whats the type for angle
+        self.ball_on_ground = False
         x_velocity = math.cos(angle) * power
         y_velocity = math.sin(angle) * power
         distance_X = x_velocity * time
@@ -22,6 +24,7 @@ class Ball:
         self.y = round(self.starting_y - distance_Y)
         if self.y + self.diameter > 520:  # if ball hits the ground (520 = win_length)
             self.in_air = False
+            self.ball_on_ground = True
             self.x = self.starting_x
             self.y = self.starting_y
         # make if statement for if ball is scored

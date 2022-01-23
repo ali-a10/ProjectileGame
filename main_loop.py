@@ -1,14 +1,15 @@
 import time
 from redraw_func import *
+from menu import *
 
 ball_time = 0
 clock = pygame.time.Clock()
 waiting = False
-score = 0
 shot = shooter.chooseShot()
 
+menu = main_menu()
 run = True
-while run:
+while run and menu:
     clock.tick(40)
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -45,11 +46,14 @@ while run:
         ball.is_scored = True
         ball_time = 0
         waiting = True
-        score += 1
+        player.score += 1
+        if player.score > player.high_score:
+            player.high_score = player.score
+        
 
     if waiting: # only thing that's drawn is 'score'
-        window.blit(pygame.transform.scale(pygame.image.load('images/score.PNG'), 
-            (100, 70)), (net.x, net.y-10))
+        window.blit(pygame.transform.scale(pygame.image.load('images/scoree.PNG'), 
+            (120, 80)), (net.x-20, net.y-15))
         pygame.display.update()
         time.sleep(0.75)
         shot = shooter.chooseShot()
@@ -60,4 +64,14 @@ while run:
         ball.x = ball.starting_x
         ball.y = ball.starting_y
     else:
-        redraw_window(ball_time, score, shot)
+        if ball.ball_on_ground:  # ball hit the ground
+            shot = shooter.chooseShot()
+            player.lives += 1
+            ball.ball_on_ground = False
+            if player.lives == 3:
+                player.score = 0
+                ball.x = ball.starting_x
+                ball.y = ball.starting_y
+                game_over()
+
+        redraw_window(ball_time, shot)

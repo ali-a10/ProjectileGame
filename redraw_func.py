@@ -3,6 +3,7 @@ import pygame
 from Ball import *
 from Net import *
 from Shooter import Shooter
+from User import User
 
 pygame.init()
 
@@ -12,8 +13,7 @@ win_length = 520
 window = pygame.display.set_mode((win_width, win_length))
 pygame.display.set_caption("Make the Shot Game")
 
-###  MAKE a SHOOTER CLASS?
-
+player = User()
 ball = Ball(60, 300)
 net = Net(800, 150)
 shooter = Shooter(20, win_length - 178)
@@ -24,12 +24,11 @@ net_yboundary = 75
 score_font = pygame.font.SysFont('arial', 25, True, True)
 
 
-def redraw_window(time: float, score: int, shot: List[int]) -> None:
+def redraw_window(time: float, shot: List[int]) -> None:
     window.blit(bg, (0, 70))
     pygame.draw.line(window, (255, 255, 255), (net_xboundary, 0), 
                     (net_xboundary, win_length))
 
-    # rim_line = net.get_rim_line()
     shooting_png = shooter.nextPNG()
     window.blit(shooting_png[0], (20, win_length - shooting_png[0].get_height()
     - shooting_png[1]))
@@ -62,14 +61,26 @@ def redraw_window(time: float, score: int, shot: List[int]) -> None:
 
             
     # top box
-    pygame.draw.rect(window, (0, 0, 0), (0, 0, win_width, 69))
+    pygame.draw.rect(window, (58, 58, 58), (0, 0, win_width, 69))
     # top box's border
     pygame.draw.rect(window, (255, 255, 255), (2, 2, win_width - 4, 70), 5) 
 
     # score
-    score_text = score_font.render('Score = ' + str(score), 1, (255, 255, 255))
+    score_text = score_font.render('Score = ' + str(player.score), 1, 
+    (255, 255, 255))
     window.blit(score_text, (660, 20))
+    high_text = score_font.render('High Score = ' + str(player.high_score),
+    1, (255, 255, 255))
+    window.blit(high_text, (825, 20))
     
+    window.blit(pygame.transform.scale(pygame.image.load("images/ball2.png"), (55, 55)), (50, 10))
+    window.blit(pygame.transform.scale(pygame.image.load("images/ball2.png"), (55, 55)), (125, 10))
+    window.blit(pygame.transform.scale(pygame.image.load("images/ball2.png"), (55, 55)), (200, 10))
+
+    for i in range(player.lives):
+        window.blit(pygame.transform.scale(pygame.image.load(
+                    "images/xmark.png"), (55, 55)), (50 + i*75, 10))
+
     window.blit(net.net_png, (net.x, net.y))
     # pygame.draw.line(window, (255, 255, 255), rim_line[0], rim_line[1])
 
